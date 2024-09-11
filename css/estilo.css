@@ -1,0 +1,254 @@
+body {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
+
+#mainContainer {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+#formContainer {
+    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-basis: 300px; /* Ajusta el tamaño según sea necesario */
+    padding: 30px 5px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    height: auto;
+    overflow: scroll;
+
+}
+
+/* Estilos para la barra de desplazamiento */
+#formContainer::-webkit-scrollbar {
+    width: 8px; /* Ancho de la barra  */
+}
+
+#formContainer::-webkit-scrollbar-track {
+    background: #16222b; /*  pista del scroll */
+    border-radius: 10px; /* Bordes redondeados  */
+}
+
+#formContainer::-webkit-scrollbar-thumb {
+    background: #89bb9e52; /*  parte deslizante del scroll */
+    border-radius: 10px; /* Bordes redondeados de la parte deslizante */
+}
+
+#formContainer::-webkit-scrollbar-thumb:hover {
+    background: #7dc2a7dc; /* cursor está sobre la parte deslizante */
+}
+
+#formContainer label {
+    margin: 5px 0;
+}
+
+#inputContainer {
+    margin-bottom: 20px;
+}
+
+#divCentral {
+    width: 600px; /* Ajusta el ancho según lo necesites */
+max-width: 800px; /* Establece un ancho máximo si es necesario */
+height: 150px;
+background-color: lightgray;
+margin: 40px auto; /* Centra el contenedor en la página */
+display: flex;
+flex-wrap: wrap;
+align-items: flex-start;
+justify-content: center; /* Centra horizontalmente los divs */
+padding: 10px;
+overflow-y: auto;
+}
+
+.acorde {
+    width: 160px;
+    height: 50px;
+    margin: 10px;
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.acorde.activo {
+    background-color: lightblue;
+    color: darkblue;
+    border: 2px solid darkblue;
+}
+
+.acorde.inactivo {
+    background-color: white;
+    color: black;
+    border: 1px solid gray;
+}
+
+#botonesContainer {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.boton-color {
+    margin: 1px;
+    padding: 13px 20px; 
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.boton-color:hover{
+    background-color: #103a3fef;
+}
+
+
+#exportGifButton:hover {
+    background-color: #103a3fef;
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño al pasar el mouse */
+    }
+
+    #exportGifButton:active {
+        background-color: #103a3fef; /* Cambia el color cuando se presiona el botón */
+        transform: scale(0.98); /* Reduce ligeramente el tamaño al presionar */
+        }
+
+        #exportarLista:hover {
+            background-color: #103a3fef;
+            transform: scale(1.05); /* Aumenta ligeramente el tamaño al pasar el mouse */
+            }
+        
+            #exportarLista:active {
+                background-color: #103a3fef; /* Cambia el color cuando se presiona el botón */
+                transform: scale(0.98); /* Reduce ligeramente el tamaño al presionar */
+                }
+               
+
+
+
+#boton1 { color: red; }
+#boton2 { color: blue; }
+#boton3 { color: green; }
+#boton4 { color: yellow; }
+#boton5 { color: purple; }
+#boton6 { color: orange; }
+
+
+.style-section {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.style-section h3 {
+    margin-top: 0;
+}
+
+#inputsPrincipales {
+    margin-bottom: 20px;
+}
+
+#inputsEstilos {
+    margin-bottom: 20px;
+}
+
+#inputContainer {
+    margin-bottom: 20px;
+}
+/*BOTON EXPORTAR*/
+
+
+
+
+
+
+
+/*DIV FRAMES*/
+#framesContainer{
+    display: block;
+    position: absolute;
+    top: 450px;
+    left: 420px;
+    width: 600px;
+    min-height: 300px ;
+    border: 2px solid black;
+
+}
+
+
+select,
+.boton-color,
+#mainContainer,
+#formContainer, 
+.style-section,
+.inputstyle,
+#botonesContainer, 
+body,
+.btn-acordes,
+.mensaje,
+#exportGifButton, 
+#exportarLista
+{
+background-color: #16222b;
+color: #7dc2a7dc  ;
+border: 1px solid #1f2a38 ;
+font-family: 'Courier New', Courier, monospace;
+
+}
+
+.inputstyle:focus {
+    background-color: #16222b;
+color: #7dc2a7dc  ;
+border: 1px solid #1f2a38 ;
+font-family: 'Courier New', Courier, monospace;
+}
+
+.inputstyle::selection {
+    background-color: #16222b;
+color: #7dc2a7dc  ;
+border: 1px solid #1f2a38 ;
+font-family: 'Courier New', Courier, monospace;
+}
+
+/* Para Firefox */
+.inputstyle::-moz-selection {
+    background-color: #16222b;
+color: #7dc2a7dc  ;
+border: 1px solid #1f2a38 ;
+font-family: 'Courier New', Courier, monospace;
+}
+
+#formContainer, 
+.style-section{
+    box-shadow: 0 2px 4px #7dc2a7dc;
+}
+
+/* BOTONES ACORDES */
+.btn-acordes{
+    font-size: 1.02em;
+padding: 5px 10px 1px;
+box-shadow: 0 1px 2px #7dc2a7dc;
+
+}
+
+.mensaje{
+    display: block;
+    position: absolute;
+    top: 250px;
+    left: 30%;
+    width: 500px;
+    height: 50px;
+    
+}
