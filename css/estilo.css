@@ -55,6 +55,13 @@ body {
     margin-bottom: 20px;
 }
 
+input:focus-within{
+    background-color: #16222b;
+color: #7dc2a7dc  ;
+border: 1px solid #1f2a38 ;
+font-family: 'Courier New', Courier, monospace;
+}
+
 #divCentral {
     width: 600px; /* Ajusta el ancho según lo necesites */
 max-width: 800px; /* Establece un ancho máximo si es necesario */
@@ -211,7 +218,7 @@ font-family: 'Courier New', Courier, monospace;
 .inputstyle:focus {
     background-color: #16222b;
 color: #7dc2a7dc  ;
-border: 1px solid #1f2a38 ;
+border: none ;
 font-family: 'Courier New', Courier, monospace;
 }
 

@@ -1,0 +1,46 @@
+
+// function descargar la lista
+function descargarLista() {
+   
+    // check that the images are saved and downloaded
+    // descargarImagenes ();
+  
+    document.getElementById('reporte').innerText = 'se guardaron ' + listaImagenes.length + ' pngs';
+    // mostrarAlgunaImagen();
+    createGifFromList();
+
+ //  document.getElementById('reporte').innerText = 'Contenido de la lista: ' + listaImagenes.join(', ');
+
+}
+
+
+***********************************
+
+
+  
+  // Función que genera el GIF desde listaImagenes
+  function createGifFromList() {
+    const gif = new GIF({
+    workers: 2,
+    quality: 10
+    });
+    listaImagenes.forEach((blob) => {
+    gif.addFrame(blob, { delay: 100 });
+    });
+    gif.on('finished', (blob) => {
+    const url = URL.createObjectURL(blob);
+    const img = document.createElement('img');
+    img.src = url;
+   // document.getElementById('framesContainer').appendChild(img[2]);
+    });
+    gif.render();
+    }
+  
+
+
+  // Llama a la función desde tu botón
+   // document.getElementById('miBoton').addEventListener('click', createGifFromList);
+  
+
+
+****************************
