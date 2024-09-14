@@ -13,11 +13,11 @@
         
         <script src="https://cdn.jsdelivr.net/npm/gif.js@latest/dist/gif.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/gif.js@latest/dist/gif.worker.js"></script>
-
+        <link rel="stylesheet" href="css/estilo.css">
         <script src="js/export.js"></script>
         
         <link rel="icon" href="img/cifrador..png" type="image/x-icon">
-        <link rel="stylesheet" href="css/estilo.css">
+        
     
         <title>Cifrando bt</title>
         <style>
@@ -97,6 +97,8 @@
             <div class="mensaje">
                 <p id="reporte"></p>
                 <p id="reporte2"></p>
+                <p id="reporte3"></p>
+                <p id="reporteGif"></p>
                 
             </div>
                 <!-- BOTON EXPORTAR -->
@@ -150,132 +152,186 @@
         
         
         
-                <script>
-                    // declare elements
-            const divCentral = document.getElementById('divCentral');
-            const agregarBtn = document.getElementById('agregarBtn');
-            const inputText = document.getElementById('inputText');
-            const botones = document.querySelectorAll('.boton-color');
-            // disable the "Delete" button by default at the start
-            borrarBtn.disabled = true;
-        
-            // click event for each button to change the background color of the div
-            botones.forEach((boton, index) => {
-                boton.addEventListener('click', () => {
-                    if (boton.id === 'boton7') {
-                        divCentral.style.backgroundColor = 'transparent';
-                        divCentral.style.backgroundImage = ''; // removes any background image
-                    } else {
-                        const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'];
-                        divCentral.style.backgroundColor = colors[index];
-                        divCentral.style.backgroundImage = ''; // removes any background image
-                    }
-                });
-            });
-        
-            let editingAcorde = null; // variable to store the chord being edited
-            let isFirstAcorde = true; // variable to identify the first chord
-        
-            // add or update chord in the central div
-            agregarBtn.addEventListener('click', () => {
-                const acordeText = inputText.value.trim();
-                if (acordeText) {
-                    if (editingAcorde) {
-                        // update the existing chord
-                        editingAcorde.textContent = acordeText;
-                        editingAcorde = null;
-                        agregarBtn.textContent = 'Agregar'; // restore the button text
-                        borrarBtn.disabled = true; // disable the "Delete" button after updating
-                    } else {
-                        // create a new chord
-                        const nuevoAcorde = document.createElement('div');
-                        nuevoAcorde.classList.add('acorde');
-                        nuevoAcorde.classList.add(isFirstAcorde ? 'activo' : 'inactivo');
-                        nuevoAcorde.textContent = acordeText;
-                        nuevoAcorde.addEventListener('click', () => {
-                            editingAcorde = nuevoAcorde;
-                            inputText.value = nuevoAcorde.textContent;
-                            agregarBtn.textContent = 'Actualizar'; // change the button text
-                            borrarBtn.disabled = false; // enable the "Delete" button
-                        });
-                        divCentral.appendChild(nuevoAcorde);
-                        isFirstAcorde = false; // ensure subsequent chords are inactive
-                    }
-                }
-            });
-        
-            // delete the active chord
-            borrarBtn.addEventListener('click', () => {
-                if (editingAcorde) {
-                    divCentral.removeChild(editingAcorde);
-                    editingAcorde = null;
-                    agregarBtn.textContent = 'Agregar'; // restore the button text
-                    borrarBtn.disabled = true; // disable the "Delete" button
-                    inputText.value = ''; // clear text field
-                }
-            });
-        
-        
-        
-            // references to style inputs
-            const bgColorInput = document.getElementById('bgColor');
-            const textColorInput = document.getElementById('textColor');
-            const borderInput = document.getElementById('border');
-            const fontFamilyInput = document.getElementById('fontFamily');
-            const fontSizeInput = document.getElementById('fontSize');
-            const bgColorInactiveInput = document.getElementById('bgColorInactive');
-            const textColorInactiveInput = document.getElementById('textColorInactive');
-            const borderInactiveInput = document.getElementById('borderInactive');
-            const bpmInput = document.getElementById('bpm');
-            const compasSelect = document.getElementById('compas');
-        
-            // function to apply styles
-            function applyStyles() {
-                const acordes = document.querySelectorAll('.acorde');
-                acordes.forEach(acorde => {
-                    if (acorde.classList.contains('activo')) {
-                        acorde.style.backgroundColor = bgColorInput.value;
-                        acorde.style.color = textColorInput.value;
-                        acorde.style.border = borderInput.value;
-                        acorde.style.fontFamily = fontFamilyInput.value;
-                        acorde.style.fontSize = fontSizeInput.value + 'px';
-                    } else {
-                        acorde.style.backgroundColor = bgColorInactiveInput.value;
-                        acorde.style.color = textColorInactiveInput.value;
-                        acorde.style.border = borderInactiveInput.value;
-                        acorde.style.fontFamily = fontFamilyInput.value;
-                        acorde.style.fontSize = fontSizeInput.value + 'px';
-                    }
-                });
+               <script>
+    // declare elements
+    const divCentral = document.getElementById('divCentral');
+    const agregarBtn = document.getElementById('agregarBtn');
+    const inputText = document.getElementById('inputText');
+    const botones = document.querySelectorAll('.boton-color');
+    const borrarBtn = document.getElementById('borrarBtn');
+
+    // disable the "Delete" button by default at the start
+    borrarBtn.disabled = true;
+
+    // click event for each button to change the background color of the div
+    botones.forEach((boton, index) => {
+        boton.addEventListener('click', () => {
+            if (boton.id === 'boton7') {
+                divCentral.style.backgroundColor = 'transparent';
+                divCentral.style.backgroundImage = ''; // removes any background image
+            } else {
+                const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'];
+                divCentral.style.backgroundColor = colors[index];
+                divCentral.style.backgroundImage = ''; // removes any background image
             }
+        });
+    });
+
+   
+
+    // Referencia al elemento root (o cualquier elemento que necesite las variables)
+const root = document.documentElement;
+
+// Asignar el valor de la variable
+root.style.setProperty('--bg-color-activo', 'green');
+root.style.setProperty('--text-color-activo', 'red');
+root.style.setProperty('--border-activo', '1px solid blue');
+
+root.style.setProperty('--bg-color-inactivo', 'purple');
+root.style.setProperty('--text-color-inactivo', 'rose');
+root.style.setProperty('--border-inactivo', '1px solid gray');
+
+ // references to style inputs
+
+ const fontFamilyInput = document.getElementById('fontFamily');
+ const fontSizeInput = document.getElementById('fontSize');
+
+    const bpmInput = document.getElementById('bpm');
+    const compasSelect = document.getElementById('compas');
+
+    const bgColorInput = document.getElementById('bgColor');
+const textColorInput = document.getElementById('textColor');
+const borderInput = document.getElementById('border');
+const bgColorInactiveInput = document.getElementById('bgColorInactive');
+const textColorInactiveInput = document.getElementById('textColorInactive');
+const borderInactiveInput = document.getElementById('borderInactive');
+
+
+// Actualiza las variables CSS según el input
+bgColorInput.addEventListener('input', () => {
+    document.documentElement.style.setProperty('--bg-color-activo', bgColorInput.value);
+});
+
+textColorInput.addEventListener('input', () => {
+    document.documentElement.style.setProperty('--text-color-activo', textColorInput.value);
+});
+
+borderInput.addEventListener('input', () => {
+    document.documentElement.style.setProperty('--border-activo', borderInput.value);
+});
+
+bgColorInactiveInput.addEventListener('input', () => {
+    document.documentElement.style.setProperty('--bg-color-inactivo', bgColorInactiveInput.value);
+});
+
+textColorInactiveInput.addEventListener('input', () => {
+    document.documentElement.style.setProperty('--text-color-inactivo', textColorInactiveInput.value);
+});
+
+borderInactiveInput.addEventListener('input', () => {
+    document.documentElement.style.setProperty('--border-inactivo', borderInactiveInput.value);
+});
+
+fontFamilyInput.addEventListener('input', () => {
+    document.documentElement.style.setProperty('--font-family-acorde', fontFamilyInput.value);
+});
+
+fontSizeInput.addEventListener('input', () => {
+    // Asegúrate de que el tamaño de fuente incluya unidades, por ejemplo '16px'
+    const fontSizeValue = fontSizeInput.value;
+    document.documentElement.style.setProperty('--font-size-acorde', fontSizeValue.includes('px') || fontSizeValue.includes('em') ? fontSizeValue : fontSizeValue + 'px');
+});
+
+
+
+// Función para aplicar estilos usando variables CSS
+function applyStyles() {
+    document.documentElement.style.setProperty('--bg-color-activo', bgColorInput.value);
+    document.documentElement.style.setProperty('--text-color-activo', textColorInput.value);
+    document.documentElement.style.setProperty('--border-activo', borderInput.value);
+    
+    document.documentElement.style.setProperty('--bg-color-inactivo', bgColorInactiveInput.value);
+    document.documentElement.style.setProperty('--text-color-inactivo', textColorInactiveInput.value);
+    document.documentElement.style.setProperty('--border-inactivo', borderInactiveInput.value);
+    
+    document.documentElement.style.setProperty('--font-family', fontFamilyInput.value);
+    document.documentElement.style.setProperty('--font-size', fontSizeInput.value + 'px');
+}
+
+// Llama a applyStyles cuando cambie cualquier input
+document.querySelectorAll('#formContainer input').forEach(input => {
+    input.addEventListener('input', applyStyles);
+});
+
+// Inicializa los estilos al cargar la página
+applyStyles();
+
+    let editingAcorde = null; // variable to store the chord being edited
+    let isFirstAcorde = true; // variable to identify the first chord
+
+    // add or update chord in the central div
+    agregarBtn.addEventListener('click', () => {
+        const acordeText = inputText.value.trim();
+        if (acordeText) {
+            if (editingAcorde) {
+                // update the existing chord
+                editingAcorde.textContent = acordeText;
+                editingAcorde = null;
+                agregarBtn.textContent = 'Agregar'; // restore the button text
+                borrarBtn.disabled = true; // disable the "Delete" button after updating
+            } else {
+                // create a new chord
+                const nuevoAcorde = document.createElement('div');
+                nuevoAcorde.classList.add('acorde');
+                nuevoAcorde.classList.add(isFirstAcorde ? 'activo' : 'inactivo');
+                nuevoAcorde.textContent = acordeText;
+                nuevoAcorde.addEventListener('click', () => {
+                    editingAcorde = nuevoAcorde;
+                    inputText.value = nuevoAcorde.textContent;
+                    agregarBtn.textContent = 'Actualizar'; // change the button text
+                    borrarBtn.disabled = false; // enable the "Delete" button
+                });
+                divCentral.appendChild(nuevoAcorde);
+                isFirstAcorde = false; // ensure subsequent chords are inactive
+            }
+        }
+    });
+
+    // delete the active chord
+    borrarBtn.addEventListener('click', () => {
+        if (editingAcorde) {
+            divCentral.removeChild(editingAcorde);
+            editingAcorde = null;
+            agregarBtn.textContent = 'Agregar'; // restore the button text
+            borrarBtn.disabled = true; // disable the "Delete" button
+            inputText.value = ''; // clear text field
+        }
+    });
+
+    // input event to form inputs to apply styles
+    document.querySelectorAll('#formContainer input').forEach(input => {
+        input.addEventListener('input', applyStyles);
+    });
+
+    // change background image
+    document.getElementById('uploadButton').addEventListener('click', function() {
+        document.getElementById('backgroundImageInput').click();
+    });
+
+    document.getElementById('backgroundImageInput').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
         
-            // input event to form inputs to apply styles
-            document.querySelectorAll('#formContainer input').forEach(input => {
-                input.addEventListener('input', applyStyles);
-            });
+        reader.onload = function(e) {
+            divCentral.style.backgroundImage = `url(${e.target.result})`;
+            divCentral.style.backgroundColor = ''; // removes background color
+        };
         
-            // initialize styles
-            applyStyles();
-        
-            // change background image
-            document.getElementById('uploadButton').addEventListener('click', function() {
-                document.getElementById('backgroundImageInput').click();
-            });
-        
-            document.getElementById('backgroundImageInput').addEventListener('change', function(event) {
-                const file = event.target.files[0];
-                const reader = new FileReader();
-                
-                reader.onload = function(e) {
-                    divCentral.style.backgroundImage = `url(${e.target.result})`;
-                    divCentral.style.backgroundColor = ''; // removes background color
-                };
-                
-                if (file) {
-                    reader.readAsDataURL(file);
-                }
-            });
-        
-                </script>
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
     </body>
     </html>

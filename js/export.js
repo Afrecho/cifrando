@@ -1,13 +1,21 @@
+
 let listaImagenes = [];
 
-// function for the Export GIF button
+// función para el botón Exportar GIF
 function exportGif() {
+
+
+    // contar el número de acordes
     const acordes = document.querySelectorAll('.acorde');
     const numAcordes = acordes.length;
 
-    const bpm = parseInt(document.getElementById('bpm').value) || 120;
-    const compas = document.getElementById('compas').value || '4/4';
+    // Oobtener el BPM ingresado por el usuario
+    const bpm = parseInt(document.getElementById('bpm').value) || 120; // Valor por defecto 120 si no hay entrada
 
+    // obtener el compás seleccionado
+    const compas = document.getElementById('compas').value || '4/4'; // Valor por defecto 4/4 si no hay selección
+
+    // calculo de milisegundos por compás
     let beatsPerBar;
     switch (compas) {
         case '3/4':
@@ -19,225 +27,236 @@ function exportGif() {
         default:
             beatsPerBar = 4; 
     }
-ter
-    const msPerBeat = 60000 / bpm;
+
+    const msPerBeat = 60000 / bpm; // 60000 ms en un minuto
     const msPerBar = msPerBeat * beatsPerBar;
 
+
+
+    // reiniciar listaImagenes antes de capturar nuevos frames
     listaImagenes = [];
 
-    // Limpiar el contenedor de imágenes
-    document.getElementById('framesContainer').innerHTML = ''; 
-
+    // GENERAR Y GUARDAR EL PNG
     function capturarFrame(index) {
         if (index >= numAcordes) {
-            // Mostrar la imagen después de capturar todos los frames
-            if (listaImagenes.length > 1) {
-                const img = document.createElement('img');
-                img.src = URL.createObjectURL(listaImagenes[3]);
-                document.getElementById('framesContainer').appendChild(img);
-            }
-            return;
+            // mostrar un alert con el número de frames guardados
+            //alert(`Se guardaron ${listaImagenes.length} frames.`);
+            return; // finalizar si ya se capturaron todos los frames
         }
 
+        // seleccionar todos los acordes
         const acordes = document.querySelectorAll('.acorde');
+
+        // primero, reiniciar todos los acordes a inactivo
         acordes.forEach(ac => {
             ac.classList.remove('activo');
             ac.classList.add('inactivo');
         });
 
+        // asignar la clase 'activo' solo al acorde actual
         if (acordes[index]) {
             acordes[index].classList.remove('inactivo');
             acordes[index].classList.add('activo');
         }
 
-        html2canvas(document.getElementById("divCentral")).then(canvas => {
-            canvas.toBlob(function(blob) {
+        // GENERAR Y GUARDAR EL PNG
+        html2canvas(document.getElementById("divCentral")).then(function (canvas) {
+            canvas.toBlob(function (blob) {
                 listaImagenes.push(blob);
+        
+                // Mostrar alerta con la cantidad de frames cargados
+                
+        
+                // capturar el siguiente frame
                 capturarFrame(index + 1);
             }, 'image/png');
         });
+        
     }
 
+    // iniciar la captura de frames
     capturarFrame(0);
+
+  // Llamada a la función
+
+
 }
 
 
 
 
+// FUNCION DESCARGAR LA LISTA
 
-// function descargar la lista
+
+
+
+
+
 function descargarLista() {
-   
-    // check that the images are saved and downloaded
-    // descargarImagenes ();
-  
-    document.getElementById('reporte').innerText = 'se guardaron ' + listaImagenes.length + ' pngs';
-    // mostrarAlgunaImagen();
-   // createGifFromList();
-   generarGif();
 
- //  document.getElementById('reporte').innerText = 'Contenido de la lista: ' + listaImagenes.join(', ');
+    // comprobar que se guardan y descargan las imagenes
+ // descargarImagenes ();
+
+ document.getElementById('reporte').innerText = 'se guardaron ' + listaImagenes.length + ' pngs, ahi vamos';
+  mostrarAlgunaImagen();  
+  //alert("imprimelo");
+    descargarImagenes();
+    crearGifDesdeLista();
 
 }
 
 
 
-// assign functions to buttons when the DOM is fully loaded
+
+// asignar las funciones a los botones cuando el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', function() {
     const exportGifButton = document.getElementById('exportGifButton');
     if (exportGifButton) {
         exportGifButton.addEventListener('click', exportGif);
-        
+
     } else {
-        // handle case where exportGifButton is not found (optional)
+
     }
 
     const exportarListaButton = document.getElementById('exportarLista');
     if (exportarListaButton) {
         exportarListaButton.addEventListener('click', descargarLista);
-        
+
     } else {
-        // handle case where exportarListaButton is not found (optional)
+
     }
 });
 
 
 
 
+  // CREAR EL GIF
 
-  // create to gif
-
-
-
-  
-  // Función que genera el GIF desde listaImagenes
-     function createGifFromList() {
-    document.getElementById('generateGif').addEventListener('click', async () => {
-        // Suponiendo que `listaImagenes` contiene URLs de imágenes PNG
-        let imageUrls = ["http://example.com/image1.png", "http://example.com/image2.png"]; // Reemplaza esto con `listaImagenes`
-
-        // Enviar la solicitud POST al servidor Flask
-        let response = await fetch('/generate_gif', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ image_urls: imageUrls })
-        });
-
-        if (response.ok) {
-            // Descargar el GIF generado
-            let blob = await response.blob();
-            let url = window.URL.createObjectURL(blob);
-            let a = document.createElement('a');
-            a.href = url;
-            a.download = 'output.gif';
-            a.click();
-            window.URL.revokeObjectURL(url);
-        } else {
-            alert('Error al generar el GIF');
-        }
-    });
-  }
-  
-  // Llama a la función desde tu botón
-   // document.getElementById('miBoton').addEventListener('click', createGifFromList);
-  
-
- 
-//FIN DEL CREADOR GIF
-
-
-    function mostrarAlgunaImagen() {
-        const framesContainer = document.getElementById("framesContainer");
-    
-        // clear previous content
-        framesContainer.innerHTML = '<h3>frames exportados:</h3>'; // reintroduce the title
-    
-        // check if the list is not empty
-        if (typeof listaImagenes !== 'undefined' && listaImagenes.length > 0) {
-          // create an image element
-          const imgElement = document.createElement("img");
-          imgElement.src = listaImagenes[2]; // set the src with the first element of the list
-          imgElement.alt = "imagen"; // alternative text for the image (optional)
-          imgElement.style.maxWidth = "100%"; // optional: adjust size
-    
-          // add the image to the div
-          framesContainer.appendChild(imgElement);
-        } else {
-          
-          document.getElementById('reporte2').innerText = 'la lista no esta definida o esta vacia';
-        }
+  function crearGifDesdeLista() {
+    // asegurar de que listaImagenes esté definida y llena de datos PNG
+    if (!Array.isArray(listaImagenes) || listaImagenes.length === 0) {
+        document.getElementById('reporte2').innerText = 'La lista de imágenes está vacía';
+        return;
     }
-    
 
+    document.getElementById('reporte3').innerText = 'Iniciando la creación del GIF...';
 
- // botton export
-
-  function descargarImagenes (){
-    if (listaImagenes.length === 0) {
-      alert("no hay imágenes para descargar. Por favor, genere las imágenes primero usando el botón 'Exportar GIF'.");
-      return;
-  }
-
-  listaImagenes.forEach((dataURL, index) => {
-      const a = document.createElement("a");
-      a.href = dataURL;
-      a.download = `imagen_${index + 1}.png`;  // file name
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-  });
-
-  
-  // call to action and export
-  
-  document.getElementById('framesList').textContent = `se han descargado ${listaImagenes.length} imágenes.`;
-
-
-  }
-
-
-
-
-
-
-  function generarGif() {
+    // crear un nuevo GIF usando gif.js
     const gif = new GIF({
-        workers: 2, // Número de hilos para procesamiento
-        quality: 10, // Calidad de la imagen (menor valor, mayor calidad)
-        workerScript: 'https://cdn.jsdelivr.net/npm/gif.js@0.2.0/dist/gif.worker.js' // Ruta del worker de gif.js
+        workers: 2,
+        quality: 10
     });
 
-    let imagesProcessed = 0; // Contador de imágenes procesadas
+    let imagesLoaded = 0;
+    const pngImages = [];
 
-    // Añadir cada imagen al GIF una vez que esté cargada
+    // convertir cada blob a PNG y almacenarlo en memoria
     listaImagenes.forEach((blob, index) => {
         const img = new Image();
         img.src = URL.createObjectURL(blob);
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            canvas.toBlob((pngBlob) => {
+                pngImages.push(pngBlob);
+                imagesLoaded++;
+                document.getElementById('reporte3').innerText = `Imagen ${index + 1} convertida a PNG. Total imágenes convertidas: ${imagesLoaded}`;
 
-        img.onload = function () {
-            gif.addFrame(img, { delay: 500 }); // 500ms de delay entre cada frame
-            imagesProcessed++;
+                // añadir la imagen al GIF cuando todas estén convertidas
+                if (imagesLoaded === listaImagenes.length) {
+                    pngImages.forEach((pngBlob, idx) => {
+                        const pngImg = new Image();
+                        pngImg.src = URL.createObjectURL(pngBlob);
+                        pngImg.onload = () => {
+                            gif.addFrame(pngImg, { delay: 600 }); // añadir cada imagen con un retraso de 600ms
+                            document.getElementById('reporte3').innerText = `Imagen ${idx + 1} añadida al GIF`;
+                        };
+                    });
 
-            // Cuando todas las imágenes hayan sido procesadas, renderiza el GIF
-            if (imagesProcessed === listaImagenes.length) {
-                gif.render();
-            }
+                    // renderizar el GIF
+                    gif.render();
+                    document.getElementById('reporte3').innerText = 'Renderizando el GIF...';
+                }
+            }, 'image/png');
+        };
+        img.onerror = () => {
+            document.getElementById('reporte3').innerText = `Error al cargar la imagen ${index + 1}`;
         };
     });
 
-    // Una vez que el GIF está completo
-    gif.on('finished', function(blob) {
-        const gifUrl = URL.createObjectURL(blob);
-
-        // Crear un enlace de descarga para el GIF
-        const downloadLink = document.createElement('a');
-        downloadLink.href = gifUrl;
-        downloadLink.download = 'animacion.gif';
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        document.body.removeChild(downloadLink);
-        URL.revokeObjectURL(gifUrl); // Liberar memoria temporal
+    // seguimiento del progreso
+    gif.on('progress', function(p) {
+        const progress = Math.round(p * 100);
+        document.getElementById('reporteGif').innerText = `Progreso del GIF: ${progress}%`;
     });
+
+    // cuando todas las imágenes han sido añadidas
+    gif.on('finished', function(blob) {
+        document.getElementById('reporte3').innerText = 'GIF creado exitosamente';
+        
+        // crear url
+        const url = URL.createObjectURL(blob);
+
+        // mostrar el gif en el contenedor de frames
+        const framesContainer = document.getElementById('framesContainer');
+        const imgElement = document.createElement('img');
+        imgElement.src = url;
+        framesContainer.innerHTML = ''; // Limpiar el contenedor
+        framesContainer.appendChild(imgElement);
+
+        // liberar memoria
+        URL.revokeObjectURL(url);
+    });
+}
+
+
+
+
+function mostrarAlgunaImagen() {
+    const framesContainer = document.getElementById("framesContainer");
+
+    // limpiar el contenido previo
+    framesContainer.innerHTML = '<h3>Frames Exportados:</h3>'; // Reintroducimos el título
+
+    // verificamos si la lista no está vacía
+    if (typeof listaImagenes !== 'undefined' && listaImagenes.length > 0) {
+        // creamos un elemento de imagen
+        const imgElement = document.createElement("img");
+        imgElement.src = URL.createObjectURL(listaImagenes[3]); // Establecemos el src con el primer elemento de la lista
+        imgElement.alt = "Imagen"; // Texto alternativo para la imagen (opcional)
+        imgElement.style.maxWidth = "100%"; // Opcional: ajustar tamaño
+
+        // añadir la imagen al div
+        framesContainer.appendChild(imgElement);
+    } else {
+        document.getElementById('reporte2').innerText = 'La lista no está definida o está vacía';
+    }
+}
+
+
+
+ // BOTON EXPORTAR
+ function descargarImagenes() {
+    if (listaImagenes.length === 0) {
+        alert("No hay imágenes para descargar. Por favor, genere las imágenes primero usando el botón 'Exportar GIF'.");
+        return;
+    }
+
+    listaImagenes.forEach((blob, index) => {
+        const a = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        a.href = url;
+        a.download = `imagen_${index + 1}.png`;  // nombre de archivo
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);  // liberar memoria
+    });
+
+    // AQUI LLAMAR A FUNCION QUE CREA Y EXPORTA
+
+    document.getElementById('framesList').textContent = `Se han descargado ${listaImagenes.length} imágenes.`;
 }
